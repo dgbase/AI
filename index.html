@@ -3,377 +3,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS5050: Principles of Marketing - A Visual Summary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- 
-    Palette Selection: "Energetic & Playful" was chosen for its vibrant, high-contrast colors that make the data engaging and easy to differentiate.
-    HEX Codes: #00A6ED (Blue), #72D3FE (Light Blue), #F29D4E (Orange), #F8C33A (Yellow), #FEF2E2 (Light Cream).
-    
-    Narrative Plan: The infographic follows the logical flow of the course, starting with foundational concepts (Needs, Wants, Value), moving to historical context (Marketing Philosophies), then strategic analysis (Environment, SWOT, BCG), deep-diving into the consumer (Behavior Models), and finally covering strategic implementation (STP, Marketing Mix). This creates a coherent story from theory to application.
-    
-    Visualization Choices:
-    - Needs/Wants/Demands Flow: Goal: Organize. Method: HTML/CSS flowchart to show a clear process. NO SVG.
-    - Marketing Philosophies: Goal: Change. Method: A Chart.js horizontal bar chart to represent a timeline of evolving concepts. NO SVG.
-    - Marketing Environment: Goal: Organize. Method: Nested HTML/CSS divs to show the relationship between Micro and Macro environments. NO SVG.
-    - SWOT & BCG Matrices: Goal: Organize/Compare. Method: HTML/CSS grids for a clear, structured representation of these 2x2 frameworks. NO SVG.
-    - Consumer Influences: Goal: Compare. Method: Chart.js Radar Chart to effectively compare the impact of multiple psychological and social factors. NO SVG.
-    - Buying Decision Matrix: Goal: Organize. Method: HTML/CSS grid. NO SVG.
-    - STP Process: Goal: Organize. Method: HTML/CSS flowchart. NO SVG.
-    - Segmentation Bases: Goal: Compare. Method: Chart.js Doughnut chart to show the composition/importance of different segmentation strategies. NO SVG.
-    - Marketing Mix (4Ps/7Ps): Goal: Inform/Organize. Method: HTML/CSS cards in a grid layout. NO SVG.
-    
-    Confirmation of Constraints:
-    - NO Mermaid JS was used.
-    - NO SVG graphics were used. All visuals are pure HTML/CSS or rendered on HTML Canvas by Chart.js.
-    -->
+    <title>Profile - Bento Box</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --card: #141414;
+            --card-hover: #1a1a1a;
+            --border: #222222;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --green: #22c55e;
+            --orange: #f97316;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .flowchart-node {
-            background-color: #00A6ED;
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            flex-grow: 1;
-            margin: 0 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .flowchart-arrow {
-            font-size: 2rem;
-            color: #00A6ED;
-            align-self: center;
-        }
-        .matrix-grid {
+
+        .bento-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 0.5rem;
-            min-height: 300px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 16px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        .matrix-cell {
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
+
+        .bento-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: #333;
+        }
+
+        /* --- Card Spans --- */
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+        .span-4 { grid-column: span 4; }
+        .row-2 { grid-row: span 2; }
+
+        /* --- Profile Hero Card --- */
+        .card-hero {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--pink));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            letter-spacing: -1px;
+        }
+
+        .hero-info h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .hero-info .tagline {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* --- About Card --- */
+        .card-about p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .card-about .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 12px;
+        }
+
+        /* --- Stats Card --- */
+        .card-stats {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-item .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .stat-item .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .stat-accent-1 .stat-number { color: var(--accent-light); }
+        .stat-accent-2 .stat-number { color: var(--green); }
+        .stat-accent-3 .stat-number { color: var(--orange); }
+        .stat-accent-4 .stat-number { color: var(--cyan); }
+
+        /* --- Skills Card --- */
+        .card-skills .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        /* --- Location Card --- */
+        .card-location {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
         }
+
+        .location-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .card-location h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .card-location p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        /* --- Experience Card --- */
+        .card-experience .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .exp-item {
+            padding-left: 16px;
+            border-left: 2px solid var(--border);
+            transition: border-color 0.2s ease;
+        }
+
+        .exp-item:hover {
+            border-left-color: var(--accent);
+        }
+
+        .exp-item .exp-role {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .exp-item .exp-company {
+            font-size: 13px;
+            color: var(--accent-light);
+            margin-top: 1px;
+        }
+
+        .exp-item .exp-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* --- Connect Card --- */
+        .card-connect .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .connect-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .connect-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .connect-link:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.06);
+            transform: translateX(4px);
+        }
+
+        .connect-link .link-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .icon-github { background: rgba(255, 255, 255, 0.1); }
+        .icon-linkedin { background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+        .icon-email { background: rgba(249, 115, 22, 0.15); color: var(--orange); }
+        .icon-twitter { background: rgba(99, 102, 241, 0.15); color: var(--accent-light); }
+
+        /* --- Projects Card --- */
+        .card-projects .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .project-item {
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .project-item:hover {
+            border-color: #333;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .project-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .project-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .tech-pill {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-light);
+            font-weight: 500;
+        }
+
+        /* --- Education Card --- */
+        .card-education {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-education .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .edu-item {
+            margin-bottom: 14px;
+        }
+
+        .edu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-item .edu-degree {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .edu-item .edu-school {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .edu-item .edu-year {
+            font-size: 12px;
+            color: var(--accent-light);
+            margin-top: 2px;
+        }
+
+        /* --- Quote Card --- */
+        .card-quote {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(236, 72, 153, 0.06));
+        }
+
+        .card-quote blockquote {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .card-quote .quote-mark {
+            font-size: 48px;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+            font-family: Georgia, serif;
+        }
+
+        .card-quote .quote-author {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            font-style: normal;
+        }
+
+        /* --- Interests Card --- */
+        .card-interests .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .interest-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .interest-item:hover {
+            border-color: #333;
+            color: var(--text-primary);
+        }
+
+        .interest-icon {
+            font-size: 20px;
+        }
+
+        /* --- Activity Graph Card --- */
+        .card-activity .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4px;
+        }
+
+        .activity-cell {
+            aspect-ratio: 1;
+            border-radius: 3px;
+            background: rgba(99, 102, 241, 0.08);
+            transition: background 0.2s ease;
+        }
+
+        .activity-cell.level-1 { background: rgba(99, 102, 241, 0.15); }
+        .activity-cell.level-2 { background: rgba(99, 102, 241, 0.3); }
+        .activity-cell.level-3 { background: rgba(99, 102, 241, 0.5); }
+        .activity-cell.level-4 { background: rgba(99, 102, 241, 0.75); }
+
+        .activity-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* --- Now Playing Card --- */
+        .card-now-playing {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .album-art {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pink), var(--orange));
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .now-playing-info .np-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--green);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .now-playing-info .np-track {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .now-playing-info .np-artist {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .span-3, .span-4 {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 580px) {
+            body {
+                padding: 12px;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .span-2, .span-3, .span-4 {
+                grid-column: span 1;
+            }
+            .card-hero {
+                grid-column: span 1;
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-info .status-badge {
+                justify-content: center;
+            }
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+            .bento-card {
+                padding: 22px;
+            }
+        }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <div class="container mx-auto p-4 md:p-8">
+<div class="bento-grid">
 
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#00A6ED]">MS5050: A Visual Guide to Marketing Principles</h1>
-            <p class="text-lg text-gray-600 mt-2">An infographic summarizing the core concepts from the lecture notes.</p>
-        </header>
-
-        <main class="space-y-16">
-
-            <!-- Section 1: The Foundation -->
-            <section id="foundation">
-                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                    <h2 class="text-3xl font-bold text-center mb-2 text-[#F29D4E]">1. The Foundation: From Human Needs to Market Demand</h2>
-                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">All marketing begins with a fundamental understanding of human needs. These basic requirements evolve into specific wants, which, when backed by buying power, create market demand. The role of the marketer is to deliver a compelling value proposition that effectively satisfies this demand.</p>
-                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                        <div class="flowchart-node">
-                            <h3 class="font-bold text-lg">Needs</h3>
-                            <p class="text-sm">Basic requirements (e.g., food, shelter)</p>
-                        </div>
-                        <div class="flowchart-arrow">→</div>
-                        <div class="flowchart-node" style="background-color: #F29D4E;">
-                            <h3 class="font-bold text-lg">Wants</h3>
-                            <p class="text-sm">Needs directed to specific objects (e.g., "I want a burger")</p>
-                        </div>
-                        <div class="flowchart-arrow">→</div>
-                        <div class="flowchart-node" style="background-color: #F8C33A;">
-                            <h3 class="font-bold text-lg">Demands</h3>
-                            <p class="text-sm">Wants backed by purchasing power</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Section 2: Evolution of Marketing Philosophies -->
-            <section id="philosophies">
-                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                    <h2 class="text-3xl font-bold text-center mb-2 text-[#00A6ED]">2. The Evolution of Marketing Thought</h2>
-                     <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Marketing strategy has evolved significantly over time. It began with a focus on efficient production and has progressively shifted towards a more holistic, customer-centric, and socially responsible approach, culminating in building long-term relationships.</p>
-                    <div class="chart-container h-96 md:h-[500px]">
-                        <canvas id="philosophiesChart"></canvas>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Section 3: The Marketing Environment -->
-            <section id="environment">
-                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                    <h2 class="text-3xl font-bold text-center mb-2 text-[#F29D4E]">3. Analyzing the Battlefield: The Marketing Environment</h2>
-                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">No business operates in a vacuum. Success depends on understanding and adapting to both the immediate (Micro) environment and the broader (Macro) societal forces that shape opportunities and threats.</p>
-                     <div class="w-full p-4 rounded-lg border-4 border-dashed border-[#00A6ED] text-center">
-                        <h3 class="text-xl font-bold text-[#00A6ED]">Macro-Environment (PESTEL)</h3>
-                        <p class="text-sm mb-4">(Uncontrollable)</p>
-                        <div class="w-full p-4 rounded-lg border-4 border-dashed border-[#F29D4E]">
-                             <h3 class="text-lg font-bold text-[#F29D4E]">Micro-Environment</h3>
-                             <p class="text-sm mb-4">(Influential)</p>
-                             <div class="bg-[#F8C33A] text-white p-4 rounded-lg shadow-inner">
-                                <h3 class="font-bold">The Company</h3>
-                                <p class="text-sm">Internal Functions</p>
-                             </div>
-                             <p class="text-sm mt-4 text-[#F29D4E]">Competitors, Suppliers, Publics, Customers</p>
-                        </div>
-                        <p class="text-sm mt-4 text-[#00A6ED]">Political, Economic, Social, Technological, Environmental, Legal Forces</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 4: Strategic Frameworks -->
-            <section id="frameworks">
-                 <h2 class="text-3xl font-bold text-center mb-8 text-[#00A6ED]">4. Core Strategic Frameworks</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                        <h3 class="text-2xl font-bold text-center mb-2">SWOT Analysis</h3>
-                        <p class="text-center text-gray-600 mb-6">A fundamental tool for strategic planning, evaluating a company's internal capabilities against external market factors.</p>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell bg-green-50"><h4 class="font-bold">Strengths</h4><p class="text-sm">Internal, Positive</p></div>
-                            <div class="matrix-cell bg-red-50"><h4 class="font-bold">Weaknesses</h4><p class="text-sm">Internal, Negative</p></div>
-                            <div class="matrix-cell bg-blue-50"><h4 class="font-bold">Opportunities</h4><p class="text-sm">External, Positive</p></div>
-                            <div class="matrix-cell bg-yellow-50"><h4 class="font-bold">Threats</h4><p class="text-sm">External, Negative</p></div>
-                        </div>
-                    </div>
-                     <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                        <h3 class="text-2xl font-bold text-center mb-2">BCG Growth-Share Matrix</h3>
-                        <p class="text-center text-gray-600 mb-6">A portfolio planning method that evaluates a company's strategic business units (SBUs) based on market growth and relative market share.</p>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell bg-[#00A6ED]/20"><h4 class="font-bold">★ Stars</h4><p class="text-sm">High Growth, High Share</p></div>
-                            <div class="matrix-cell bg-[#F29D4E]/20"><h4 class="font-bold">? Question Marks</h4><p class="text-sm">High Growth, Low Share</p></div>
-                            <div class="matrix-cell bg-[#F8C33A]/20"><h4 class="font-bold">🐄 Cash Cows</h4><p class="text-sm">Low Growth, High Share</p></div>
-                            <div class="matrix-cell bg-gray-200"><h4 class="font-bold">🐕 Dogs</h4><p class="text-sm">Low Growth, Low Share</p></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 5: Consumer Behavior -->
-            <section id="consumer">
-                <h2 class="text-3xl font-bold text-center mb-8 text-[#F29D4E]">5. Decoding the Consumer's Mind</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                         <h3 class="text-2xl font-bold text-center mb-2">The "Consumer Black Box"</h3>
-                         <p class="text-center text-gray-600 mb-6">Marketers must understand the various factors that influence a consumer's decision-making process, which often seems like an opaque "black box".</p>
-                        <div class="chart-container h-80">
-                            <canvas id="consumerFactorsChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                        <h3 class="text-2xl font-bold text-center mb-2">Types of Buying Decisions</h3>
-                        <p class="text-center text-gray-600 mb-6">Consumer buying behavior varies greatly based on the level of involvement and the perceived differences among brands.</p>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell bg-blue-100"><h4 class="font-bold">Complex Buying</h4><p class="text-sm">High Involvement, Significant Brand Difference</p></div>
-                            <div class="matrix-cell bg-green-100"><h4 class="font-bold">Variety-Seeking</h4><p class="text-sm">Low Involvement, Significant Brand Difference</p></div>
-                             <div class="matrix-cell bg-yellow-100"><h4 class="font-bold">Dissonance-Reducing</h4><p class="text-sm">High Involvement, Few Brand Differences</p></div>
-                            <div class="matrix-cell bg-gray-200"><h4 class="font-bold">Habitual Buying</h4><p class="text-sm">Low Involvement, Few Brand Differences</p></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section 6: STP Process -->
-            <section id="stp">
-                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                     <h2 class="text-3xl font-bold text-center mb-2 text-[#00A6ED]">6. Finding Your Focus: The STP Process</h2>
-                     <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">The core of modern strategic marketing is the three-step process of Segmentation, Targeting, and Positioning. This framework allows companies to focus their efforts on the most promising customer groups.</p>
-                     <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-12">
-                        <div class="flowchart-node">
-                            <h3 class="font-bold text-lg">1. Segmentation</h3>
-                            <p class="text-sm">Divide the total market into smaller segments</p>
-                        </div>
-                        <div class="flowchart-arrow">→</div>
-                        <div class="flowchart-node" style="background-color: #F29D4E;">
-                            <h3 class="font-bold text-lg">2. Targeting</h3>
-                            <p class="text-sm">Select the segment or segments to enter</p>
-                        </div>
-                        <div class="flowchart-arrow">→</div>
-                        <div class="flowchart-node" style="background-color: #F8C33A;">
-                            <h3 class="font-bold text-lg">3. Positioning</h3>
-                            <p class="text-sm">Position the market offering in the minds of target customers</p>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-center mt-10 mb-2">Common Segmentation Bases</h3>
-                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">Markets can be segmented using various characteristics to create meaningful groups.</p>
-                    <div class="chart-container h-72">
-                        <canvas id="segmentationChart"></canvas>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Section 7: Marketing Mix -->
-            <section id="mix">
-                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                    <h2 class="text-3xl font-bold text-center mb-2 text-[#F29D4E]">7. The Marketer's Toolkit: The Marketing Mix</h2>
-                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">The marketing mix consists of the controllable tactical tools that a firm blends to produce the desired response from its target market. The 4Ps are the foundation, extended to 7Ps for services.</p>
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                        <div class="p-4 rounded-lg bg-[#00A6ED]/20"><h4 class="font-bold text-lg">Product</h4><p>Goods/Services Offered</p></div>
-                        <div class="p-4 rounded-lg bg-[#00A6ED]/20"><h4 class="font-bold text-lg">Price</h4><p>What the customer pays</p></div>
-                        <div class="p-4 rounded-lg bg-[#00A6ED]/20"><h4 class="font-bold text-lg">Place</h4><p>Availability & Distribution</p></div>
-                        <div class="p-4 rounded-lg bg-[#00A6ED]/20"><h4 class="font-bold text-lg">Promotion</h4><p>Communication & Ads</p></div>
-                    </div>
-                    <div class="text-center my-4 font-bold text-3xl text-gray-400">+</div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                         <div class="p-4 rounded-lg bg-[#F29D4E]/20"><h4 class="font-bold text-lg">People</h4><p>Service personnel</p></div>
-                         <div class="p-4 rounded-lg bg-[#F29D4E]/20"><h4 class="font-bold text-lg">Process</h4><p>Service delivery</p></div>
-                         <div class="p-4 rounded-lg bg-[#F29D4E]/20"><h4 class="font-bold text-lg">Physical Evidence</h4><p>Tangible cues</p></div>
-                    </div>
-                 </div>
-            </section>
-
-        </main>
-
-        <footer class="text-center mt-16 border-t pt-8">
-            <p class="text-gray-600">This infographic is a visual interpretation of the MS5050 lecture notes, highlighting the dynamic and strategic nature of modern marketing.</p>
-        </footer>
-
+    <!-- Row 1: Hero (2 cols) + Stats (2 cols) -->
+    <div class="bento-card card-hero">
+        <div class="avatar">DG</div>
+        <div class="hero-info">
+            <h1>Daniel Garcia</h1>
+            <p class="tagline">Full-Stack Developer & Creative Technologist</p>
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                Available for work
+            </div>
+        </div>
     </div>
 
+    <div class="bento-card card-stats span-2">
+        <div class="stat-grid">
+            <div class="stat-item stat-accent-1">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item stat-accent-2">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat-item stat-accent-3">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item stat-accent-4">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Awards Won</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 2: About (2 cols) + Skills (2 cols) -->
+    <div class="bento-card card-about span-2">
+        <div class="section-label">About Me</div>
+        <p>
+            I'm a passionate developer who loves building beautiful, functional web experiences.
+            With a background in both design and engineering, I bridge the gap between creative vision
+            and technical execution. When I'm not coding, you'll find me exploring new technologies,
+            contributing to open source, or sketching UI concepts.
+        </p>
+    </div>
+
+    <div class="bento-card card-skills span-2">
+        <div class="section-label">Tech Stack</div>
+        <div class="skill-tags">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Next.js</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Tailwind CSS</span>
+        </div>
+    </div>
+
+    <!-- Row 3: Experience (2 cols) + Location (1 col) + Quote (1 col) -->
+    <div class="bento-card card-experience span-2 row-2">
+        <div class="section-label">Experience</div>
+        <div class="experience-list">
+            <div class="exp-item">
+                <div class="exp-role">Senior Frontend Developer</div>
+                <div class="exp-company">TechCorp Inc.</div>
+                <div class="exp-date">2023 - Present</div>
+            </div>
+            <div class="exp-item">
+                <div class="exp-role">Full-Stack Developer</div>
+                <div class="exp-company">StartupXYZ</div>
+                <div class="exp-date">2021 - 2023</div>
+            </div>
+            <div class="exp-item">
+                <div class="exp-role">Junior Developer</div>
+                <div class="exp-company">WebAgency Co.</div>
+                <div class="exp-date">2019 - 2021</div>
+            </div>
+            <div class="exp-item">
+                <div class="exp-role">Freelance Developer</div>
+                <div class="exp-company">Self-employed</div>
+                <div class="exp-date">2018 - 2019</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bento-card card-location">
+        <div class="location-icon">&#127758;</div>
+        <h3>San Francisco, CA</h3>
+        <p>UTC-8 / PST</p>
+    </div>
+
+    <div class="bento-card card-now-playing">
+        <div class="album-art">&#9835;</div>
+        <div class="now-playing-info">
+            <div class="np-label">Now Playing</div>
+            <div class="np-track">Midnight City</div>
+            <div class="np-artist">M83</div>
+        </div>
+    </div>
+
+    <!-- Row 4 (continuing): Education (1 col) + Fav Quote (1 col) -->
+    <div class="bento-card card-education">
+        <div class="section-label">Education</div>
+        <div class="edu-item">
+            <div class="edu-degree">B.S. Computer Science</div>
+            <div class="edu-school">University of California</div>
+            <div class="edu-year">2015 - 2019</div>
+        </div>
+        <div class="edu-item">
+            <div class="edu-degree">UX Design Certificate</div>
+            <div class="edu-school">Google / Coursera</div>
+            <div class="edu-year">2020</div>
+        </div>
+    </div>
+
+    <div class="bento-card card-quote">
+        <div class="quote-mark">"</div>
+        <blockquote>The best way to predict the future is to invent it.</blockquote>
+        <div class="quote-author">- Alan Kay</div>
+    </div>
+
+    <!-- Row 5: Projects (3 cols) + Connect (1 col) -->
+    <div class="bento-card card-projects span-3">
+        <div class="section-label">Featured Projects</div>
+        <div class="project-list">
+            <div class="project-item">
+                <h4>CloudDash</h4>
+                <p>Real-time cloud infrastructure monitoring dashboard with alerting and cost optimization insights.</p>
+                <div class="project-tech">
+                    <span class="tech-pill">React</span>
+                    <span class="tech-pill">Go</span>
+                    <span class="tech-pill">AWS</span>
+                    <span class="tech-pill">WebSocket</span>
+                </div>
+            </div>
+            <div class="project-item">
+                <h4>PixelForge</h4>
+                <p>Browser-based collaborative design tool for rapid prototyping with real-time multiplayer editing.</p>
+                <div class="project-tech">
+                    <span class="tech-pill">Next.js</span>
+                    <span class="tech-pill">Canvas API</span>
+                    <span class="tech-pill">CRDT</span>
+                </div>
+            </div>
+            <div class="project-item">
+                <h4>DataPipe</h4>
+                <p>Visual ETL pipeline builder that lets teams create data workflows with a drag-and-drop interface.</p>
+                <div class="project-tech">
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">React Flow</span>
+                    <span class="tech-pill">PostgreSQL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bento-card card-connect row-2">
+        <div class="section-label">Connect</div>
+        <div class="connect-links">
+            <a href="#" class="connect-link">
+                <span class="link-icon icon-github">&#60;/&#62;</span>
+                GitHub
+            </a>
+            <a href="#" class="connect-link">
+                <span class="link-icon icon-linkedin">in</span>
+                LinkedIn
+            </a>
+            <a href="#" class="connect-link">
+                <span class="link-icon icon-twitter">&#64;</span>
+                Twitter
+            </a>
+            <a href="mailto:hello@example.com" class="connect-link">
+                <span class="link-icon icon-email">&#9993;</span>
+                Email
+            </a>
+        </div>
+    </div>
+
+    <!-- Row 6: Activity (3 cols) -->
+    <div class="bento-card card-activity span-3">
+        <div class="section-label">Activity</div>
+        <div class="activity-grid" id="activityGrid"></div>
+        <div class="activity-label">84 contributions in the last 12 weeks</div>
+    </div>
+
+    <!-- Row 7: Interests (4 cols) -->
+    <div class="bento-card card-interests span-4">
+        <div class="section-label">Interests</div>
+        <div class="interests-grid">
+            <div class="interest-item">
+                <span class="interest-icon">&#128187;</span> Open Source
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#127912;</span> UI/UX Design
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#128218;</span> Technical Writing
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#127911;</span> Music Production
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#9749;</span> Coffee
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#127747;</span> Photography
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#128640;</span> Startups
+            </div>
+            <div class="interest-item">
+                <span class="interest-icon">&#129302;</span> AI / ML
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <script>
-    function wrapText(label) {
-        if (typeof label === 'string' && label.length > 16) {
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-            words.forEach(word => {
-                if ((currentLine + word).length > 16) {
-                    lines.push(currentLine.trim());
-                    currentLine = '';
-                }
-                currentLine += word + ' ';
-            });
-            lines.push(currentLine.trim());
-            return lines;
-        }
-        return label;
-    }
-
-    const defaultTooltipCallback = {
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    title: function(tooltipItems) {
-                        const item = tooltipItems[0];
-                        let label = item.chart.data.labels[item.dataIndex];
-                        return Array.isArray(label) ? label.join(' ') : label;
-                    }
-                }
-            }
-        }
-    };
-    
-    // Chart 1: Philosophies
-    const philosophiesData = {
-        labels: ['Production Concept', 'Product Concept', 'Selling Concept', 'Marketing Concept', 'Relationship Concept'].map(wrapText),
-        datasets: [{
-            label: 'Timeline of Marketing Philosophies',
-            data: [1, 2, 3, 4, 5],
-            backgroundColor: ['#e2e8f0', '#cbd5e1', '#94a3b8', '#72D3FE', '#00A6ED'],
-            borderColor: '#ffffff',
-            borderWidth: 2
-        }]
-    };
-    new Chart(document.getElementById('philosophiesChart'), {
-        type: 'bar',
-        data: philosophiesData,
-        options: {
-            ...defaultTooltipCallback,
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { display: false },
-                y: { beginAtZero: true }
-            },
-            plugins: {
-                ...defaultTooltipCallback.plugins,
-                legend: { display: false },
-                title: { display: true, text: 'Evolution from Production-Focus to Relationship-Focus' }
-            }
-        }
+    // Generate activity grid
+    const grid = document.getElementById('activityGrid');
+    const levels = [0, 0, 0, 1, 0, 2, 0, 1, 3, 0, 0, 1,
+                    2, 0, 1, 0, 0, 4, 1, 0, 0, 2, 0, 1,
+                    0, 3, 0, 1, 2, 0, 0, 1, 0, 4, 0, 2,
+                    1, 0, 0, 2, 0, 1, 3, 0, 1, 0, 2, 0,
+                    0, 1, 4, 0, 0, 2, 1, 0, 3, 0, 1, 0,
+                    2, 0, 1, 0, 4, 0, 0, 2, 1, 0, 0, 3,
+                    0, 1, 0, 2, 0, 1, 0, 0, 2, 4, 0, 1];
+    levels.forEach(level => {
+        const cell = document.createElement('div');
+        cell.className = 'activity-cell' + (level > 0 ? ' level-' + level : '');
+        grid.appendChild(cell);
     });
-
-    // Chart 2: Consumer Factors
-    const consumerFactorsData = {
-        labels: ['Cultural', 'Social', 'Personal', 'Psychological', 'Economic'],
-        datasets: [{
-            label: 'Influence on Consumer Behavior',
-            data: [8, 7, 9, 10, 6],
-            fill: true,
-            backgroundColor: 'rgba(242, 157, 78, 0.2)',
-            borderColor: '#F29D4E',
-            pointBackgroundColor: '#F29D4E',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: '#F29D4E'
-        }]
-    };
-    new Chart(document.getElementById('consumerFactorsChart'), {
-        type: 'radar',
-        data: consumerFactorsData,
-        options: {
-            ...defaultTooltipCallback,
-            responsive: true,
-            maintainAspectRatio: false,
-             plugins: {
-                ...defaultTooltipCallback.plugins,
-                legend: { display: false },
-             }
-        }
-    });
-
-    // Chart 3: Segmentation
-    const segmentationData = {
-        labels: ['Demographic', 'Psychographic', 'Behavioral', 'Geographic'],
-        datasets: [{
-            label: 'Segmentation Bases',
-            data: [40, 25, 25, 10],
-            backgroundColor: ['#00A6ED', '#72D3FE', '#F29D4E', '#F8C33A'],
-            hoverOffset: 4
-        }]
-    };
-    new Chart(document.getElementById('segmentationChart'), {
-        type: 'doughnut',
-        data: segmentationData,
-        options: {
-            ...defaultTooltipCallback,
-            responsive: true,
-            maintainAspectRatio: false,
-             plugins: {
-                ...defaultTooltipCallback.plugins,
-                legend: { position: 'top' },
-             }
-        }
-    });
-
 </script>
 
 </body>
